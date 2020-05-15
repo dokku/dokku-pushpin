@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+export PUSHPIN_IMAGE=${PUSHPIN_IMAGE:="fanout/pushpin"}
+export PUSHPIN_IMAGE_VERSION=${PUSHPIN_IMAGE_VERSION:="1.28.0"}
+export PUSHPIN_ROOT=${PUSHPIN_ROOT:="$DOKKU_LIB_ROOT/services/pushpin"}
+export PUSHPIN_HOST_ROOT=${PUSHPIN_HOST_ROOT:=$PUSHPIN_ROOT}
+
+export PLUGIN_UNIMPLEMENTED_SUBCOMMANDS=("backup" "backup-auth" "backup-deauth" "backup-schedule" "backup-schedule-cat" "backup-set-encryption" "backup-unschedule" "backup-unset-encryption" "clone" "connect" "export" "import")
+export PLUGIN_COMMAND_PREFIX="pushpin"
+export PLUGIN_CONFIG_ROOT=${PLUGIN_CONFIG_ROOT:="$DOKKU_LIB_ROOT/config/$PLUGIN_COMMAND_PREFIX"}
+export PLUGIN_DATA_ROOT=$PUSHPIN_ROOT
+export PLUGIN_DATA_HOST_ROOT=$PUSHPIN_HOST_ROOT
+export PLUGIN_DATASTORE_PORTS=(5561 7999 5560 5562 5563)
+export PLUGIN_DATASTORE_WAIT_PORT=5561
+export PLUGIN_DEFAULT_ALIAS="WEBSOCKET"
+export PLUGIN_DISABLE_PULL=${PUSHPIN_DISABLE_PULL:=}
+export PLUGIN_DISABLE_PULL_VARIABLE="PUSHPIN_DISABLE_PULL"
+export PLUGIN_ALT_ALIAS="DOKKU_PUSHPIN"
+export PLUGIN_IMAGE=$PUSHPIN_IMAGE
+export PLUGIN_IMAGE_VERSION=$PUSHPIN_IMAGE_VERSION
+export PLUGIN_SCHEME="websocket"
+export PLUGIN_SERVICE="Pushpin"
+export PLUGIN_VARIABLE="PUSHPIN"
+export PLUGIN_BASE_PATH="$PLUGIN_PATH"
+if [[ -n $DOKKU_API_VERSION ]]; then
+  export PLUGIN_BASE_PATH="$PLUGIN_ENABLED_PATH"
+fi
+
+export PLUGIN_BUSYBOX_IMAGE="busybox:1.31.1-uclibc"
+export PLUGIN_AMBASSADOR_IMAGE="dokku/ambassador:0.3.3"
+export PLUGIN_S3BACKUP_IMAGE="dokku/s3backup:0.10.3"
+export PLUGIN_WAIT_IMAGE="dokku/wait:0.4.3"
