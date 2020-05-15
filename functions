@@ -67,6 +67,13 @@ service_create_container() {
   local SERVICE_HOST_ROOT="$PLUGIN_DATA_HOST_ROOT/$SERVICE"
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
 
+  if [[ ! -f "$SERVICE_ROOT/config/pushpin.conf" ]]; then
+    docker create --label dokku=service.tmp --name "tmp.$SERVICE_NAME" fanout/pushpin:1.28.0
+    docker cp "tmp.$SERVICE_NAME:/etc/pushpin/pushpin.conf" "$SERVICE_HOST_ROOT/config/pushpin.conf" 2>/dev/null
+    docker cp "tmp.$SERVICE_NAME:/etc/pushpin/routes" "$SERVICE_HOST_ROOT/config/routes" 2>/dev/null
+    docker rm "tmp.$SERVICE_NAME" >/dev/null 2>&1 || true
+  fi
+
   ID=$(docker run --name "$SERVICE_NAME" -v "$SERVICE_HOST_ROOT/config:/etc/pushpin" --env-file="$SERVICE_ROOT/ENV" -d --restart always --label dokku=service --label dokku.service=pushpin "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
   echo "$ID" >"$SERVICE_ROOT/ID"
 
