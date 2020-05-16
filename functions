@@ -39,7 +39,7 @@ service_create() {
 
   mkdir -p "$SERVICE_ROOT" || dokku_log_fail "Unable to create service directory"
   mkdir -p "$SERVICE_ROOT/data" || dokku_log_fail "Unable to create service data directory"
-  mkdir -p "$SERVICE_ROOT/config" || dokku_log_fail "Unable to create service config directory"
+  mkdir -p "$SERVICE_ROOT/$PLUGIN_CONFIG_SUFFIX" || dokku_log_fail "Unable to create service config directory"
   touch "$LINKS_FILE"
 
   PASSWORD=$(openssl rand -hex 16)
@@ -67,14 +67,14 @@ service_create_container() {
   local SERVICE_HOST_ROOT="$PLUGIN_DATA_HOST_ROOT/$SERVICE"
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
 
-  if [[ ! -f "$SERVICE_ROOT/config/pushpin.conf" ]]; then
+  if [[ ! -f "$SERVICE_ROOT/$PLUGIN_CONFIG_SUFFIX/pushpin.conf" ]]; then
     docker create --label dokku=service.tmp --name "tmp.$SERVICE_NAME" fanout/pushpin:1.28.0
-    docker cp "tmp.$SERVICE_NAME:/etc/pushpin/pushpin.conf" "$SERVICE_HOST_ROOT/config/pushpin.conf" 2>/dev/null
-    docker cp "tmp.$SERVICE_NAME:/etc/pushpin/routes" "$SERVICE_HOST_ROOT/config/routes" 2>/dev/null
+    docker cp "tmp.$SERVICE_NAME:/etc/pushpin/pushpin.conf" "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX/pushpin.conf" 2>/dev/null
+    docker cp "tmp.$SERVICE_NAME:/etc/pushpin/routes" "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX/routes" 2>/dev/null
     docker rm "tmp.$SERVICE_NAME" >/dev/null 2>&1 || true
   fi
 
-  ID=$(docker run --name "$SERVICE_NAME" -v "$SERVICE_HOST_ROOT/config:/etc/pushpin" --env-file="$SERVICE_ROOT/ENV" -d --restart always --label dokku=service --label dokku.service=pushpin "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
+  ID=$(docker run --name "$SERVICE_NAME" -v "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX:/etc/pushpin" --env-file="$SERVICE_ROOT/ENV" -d --restart always --label dokku=service --label dokku.service=pushpin "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION")
   echo "$ID" >"$SERVICE_ROOT/ID"
 
   dokku_log_verbose_quiet "Waiting for container to be ready"
