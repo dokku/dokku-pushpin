@@ -1,6 +1,6 @@
 # dokku pushpin [![Build Status](https://img.shields.io/circleci/project/github/dokku/dokku-pushpin.svg?branch=master&style=flat-square "Build Status")](https://circleci.com/gh/dokku/dokku-pushpin/tree/master) [![IRC Network](https://img.shields.io/badge/irc-freenode-blue.svg?style=flat-square "IRC Freenode")](https://webchat.freenode.net/?channels=dokku)
 
-Official pushpin plugin for dokku. Currently defaults to installing [pushpin 1.28.0](https://hub.docker.com/_/pushpin/).
+Official pushpin plugin for dokku. Currently defaults to installing [fanout/pushpin 1.28.0](https://hub.docker.com/r/fanout/pushpin/).
 
 ## Requirements
 
