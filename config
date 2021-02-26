@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-export PUSHPIN_IMAGE=${PUSHPIN_IMAGE:="fanout/pushpin"}
-export PUSHPIN_IMAGE_VERSION=${PUSHPIN_IMAGE_VERSION:="1.28.0"}
+export PUSHPIN_IMAGE=${PUSHPIN_IMAGE:="$(awk -F '[ :]' '{print $2}' Dockerfile)"}
+export PUSHPIN_IMAGE_VERSION=${PUSHPIN_IMAGE_VERSION:="$(awk -F '[ :]' '{print $3}' Dockerfile)"}
 export PUSHPIN_ROOT=${PUSHPIN_ROOT:="$DOKKU_LIB_ROOT/services/pushpin"}
 export PUSHPIN_HOST_ROOT=${PUSHPIN_HOST_ROOT:=$PUSHPIN_ROOT}
 
