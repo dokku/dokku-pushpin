@@ -65,7 +65,7 @@ Create a pushpin service named lolipop:
 dokku pushpin:create lolipop
 ```
 
-You can also specify the image and image version to use for the service. It *must* be compatible with the fanout/pushpin image. 
+You can also specify the image and image version to use for the service. It *must* be compatible with the fanout/pushpin image.
 
 ```shell
 export WEBSOCKET_IMAGE="fanout/pushpin"
@@ -73,7 +73,7 @@ export WEBSOCKET_IMAGE_VERSION="${PLUGIN_IMAGE_VERSION}"
 dokku pushpin:create lolipop
 ```
 
-You can also specify custom environment variables to start the pushpin service in semi-colon separated form. 
+You can also specify custom environment variables to start the pushpin service in semi-colon separated form.
 
 ```shell
 export WEBSOCKET_CUSTOM_ENV="USER=alpha;HOST=beta"
@@ -169,7 +169,7 @@ flags:
 - `-a|--alias "BLUE_DATABASE"`: an alternative alias to use for linking to an app via environment variable
 - `-q|--querystring "pool=5"`: ampersand delimited querystring arguments to append to the service link
 
-A pushpin service can be linked to a container. This will use native docker links via the docker-options plugin. Here we link it to our 'playground' app. 
+A pushpin service can be linked to a container. This will use native docker links via the docker-options plugin. Here we link it to our `playground` app.
 
 > NOTE: this will restart your app
 
@@ -194,13 +194,13 @@ The following will be set on the linked application by default:
 WEBSOCKET_URL=websocket://lolipop:SOME_PASSWORD@dokku-pushpin-lolipop:5561/lolipop
 ```
 
-The host exposed here only works internally in docker containers. If you want your container to be reachable from outside, you should use the 'expose' subcommand. Another service can be linked to your app:
+The host exposed here only works internally in docker containers. If you want your container to be reachable from outside, you should use the `expose` subcommand. Another service can be linked to your app:
 
 ```shell
 dokku pushpin:link other_service playground
 ```
 
-It is possible to change the protocol for `WEBSOCKET_URL` by setting the environment variable `PUSHPIN_DATABASE_SCHEME` on the app. Doing so will after linking will cause the plugin to think the service is not linked, and we advise you to unlink before proceeding. 
+It is possible to change the protocol for `WEBSOCKET_URL` by setting the environment variable `PUSHPIN_DATABASE_SCHEME` on the app. Doing so will after linking will cause the plugin to think the service is not linked, and we advise you to unlink before proceeding.
 
 ```shell
 dokku config:set playground PUSHPIN_DATABASE_SCHEME=websocket2
@@ -239,13 +239,13 @@ The lifecycle of each service can be managed through the following commands:
 dokku pushpin:enter <service>
 ```
 
-A bash prompt can be opened against a running service. Filesystem changes will not be saved to disk. 
+A bash prompt can be opened against a running service. Filesystem changes will not be saved to disk.
 
 ```shell
 dokku pushpin:enter lolipop
 ```
 
-You may also run a command directly against the service. Filesystem changes will not be saved to disk. 
+You may also run a command directly against the service. Filesystem changes will not be saved to disk.
 
 ```shell
 dokku pushpin:enter lolipop touch /tmp/test
@@ -376,7 +376,7 @@ Service scripting can be executed using the following commands:
 dokku pushpin:app-links <app>
 ```
 
-List all pushpin services that are linked to the 'playground' app. 
+List all pushpin services that are linked to the `playground` app.
 
 ```shell
 dokku pushpin:app-links playground
@@ -389,7 +389,7 @@ dokku pushpin:app-links playground
 dokku pushpin:exists <service>
 ```
 
-Here we check if the lolipop pushpin service exists. 
+Here we check if the lolipop pushpin service exists.
 
 ```shell
 dokku pushpin:exists lolipop
@@ -402,7 +402,7 @@ dokku pushpin:exists lolipop
 dokku pushpin:linked <service> <app>
 ```
 
-Here we check if the lolipop pushpin service is linked to the 'playground' app. 
+Here we check if the lolipop pushpin service is linked to the `playground` app.
 
 ```shell
 dokku pushpin:linked lolipop playground
@@ -415,7 +415,7 @@ dokku pushpin:linked lolipop playground
 dokku pushpin:links <service>
 ```
 
-List all apps linked to the 'lolipop' pushpin service. 
+List all apps linked to the `lolipop` pushpin service.
 
 ```shell
 dokku pushpin:links lolipop
