@@ -22,7 +22,7 @@ pushpin:create <service> [--create-flags...]   # create a pushpin service
 pushpin:destroy <service> [-f|--force]         # delete the pushpin service/data/container if there are no links left
 pushpin:enter <service>                        # enter or run a command in a running pushpin service container
 pushpin:exists <service>                       # check if the pushpin service exists
-pushpin:expose <service> <ports...>            # expose a pushpin service on custom port if provided (random port otherwise)
+pushpin:expose <service> <ports...>            # expose a pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
 pushpin:info <service> [--single-info-flag]    # print the service information
 pushpin:link <service> <app> [--link-flags...] # link the pushpin service to the app
 pushpin:linked <service> <app>                 # check if the pushpin service is linked to an app
@@ -251,7 +251,7 @@ You may also run a command directly against the service. Filesystem changes will
 dokku pushpin:enter lolipop touch /tmp/test
 ```
 
-### expose a pushpin service on custom port if provided (random port otherwise)
+### expose a pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
 
 ```shell
 # usage
@@ -262,6 +262,12 @@ Expose the service on the service's normal ports, allowing access to it from the
 
 ```shell
 dokku pushpin:expose lolipop 5561 7999 5560 5562 5563
+```
+
+Expose the service on the service's normal ports, with the first on a specified ip adddress (127.0.0.1):
+
+```shell
+dokku pushpin:expose lolipop 127.0.0.1:5561 7999 5560 5562 5563
 ```
 
 ### unexpose a previously exposed pushpin service
