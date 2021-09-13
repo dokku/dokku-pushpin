@@ -70,15 +70,15 @@ dokku pushpin:create lolipop
 You can also specify the image and image version to use for the service. It *must* be compatible with the fanout/pushpin image.
 
 ```shell
-export WEBSOCKET_IMAGE="fanout/pushpin"
-export WEBSOCKET_IMAGE_VERSION="${PLUGIN_IMAGE_VERSION}"
+export PUSHPIN_IMAGE="fanout/pushpin"
+export PUSHPIN_IMAGE_VERSION="${PLUGIN_IMAGE_VERSION}"
 dokku pushpin:create lolipop
 ```
 
 You can also specify custom environment variables to start the pushpin service in semi-colon separated form.
 
 ```shell
-export WEBSOCKET_CUSTOM_ENV="USER=alpha;HOST=beta"
+export PUSHPIN_CUSTOM_ENV="USER=alpha;HOST=beta"
 dokku pushpin:create lolipop
 ```
 
