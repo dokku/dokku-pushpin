@@ -182,18 +182,18 @@ dokku pushpin:link lolipop playground
 The following environment variables will be set automatically by docker (not on the app itself, so they won’t be listed when calling dokku config):
 
 ```
-DOKKU_WEBSOCKET_LOLIPOP_NAME=/lolipop/DATABASE
-DOKKU_WEBSOCKET_LOLIPOP_PORT=tcp://172.17.0.1:5561
-DOKKU_WEBSOCKET_LOLIPOP_PORT_5561_TCP=tcp://172.17.0.1:5561
-DOKKU_WEBSOCKET_LOLIPOP_PORT_5561_TCP_PROTO=tcp
-DOKKU_WEBSOCKET_LOLIPOP_PORT_5561_TCP_PORT=5561
-DOKKU_WEBSOCKET_LOLIPOP_PORT_5561_TCP_ADDR=172.17.0.1
+DOKKU_PUSHPIN_LOLIPOP_NAME=/lolipop/DATABASE
+DOKKU_PUSHPIN_LOLIPOP_PORT=tcp://172.17.0.1:5561
+DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP=tcp://172.17.0.1:5561
+DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP_PROTO=tcp
+DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP_PORT=5561
+DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP_ADDR=172.17.0.1
 ```
 
 The following will be set on the linked application by default:
 
 ```
-WEBSOCKET_URL=websocket://lolipop:SOME_PASSWORD@dokku-pushpin-lolipop:5561/lolipop
+WEBSOCKET_URL=websocket://dokku-pushpin-lolipop:5561
 ```
 
 The host exposed here only works internally in docker containers. If you want your container to be reachable from outside, you should use the `expose` subcommand. Another service can be linked to your app:
@@ -212,7 +212,7 @@ dokku pushpin:link lolipop playground
 This will cause `WEBSOCKET_URL` to be set as:
 
 ```
-websocket2://lolipop:SOME_PASSWORD@dokku-pushpin-lolipop:5561/lolipop
+websocket2://dokku-pushpin-lolipop:5561
 ```
 
 ### unlink the pushpin service from the app
