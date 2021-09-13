@@ -62,10 +62,10 @@ flags:
 - `-r|--root-password PASSWORD`: override the root-level service password
 - `-s|--shm-size SHM_SIZE`: override shared memory size for pushpin docker container
 
-Create a pushpin service named lolipop:
+Create a pushpin service named lollipop:
 
 ```shell
-dokku pushpin:create lolipop
+dokku pushpin:create lollipop
 ```
 
 You can also specify the image and image version to use for the service. It *must* be compatible with the fanout/pushpin image.
@@ -73,14 +73,14 @@ You can also specify the image and image version to use for the service. It *mus
 ```shell
 export PUSHPIN_IMAGE="fanout/pushpin"
 export PUSHPIN_IMAGE_VERSION="${PLUGIN_IMAGE_VERSION}"
-dokku pushpin:create lolipop
+dokku pushpin:create lollipop
 ```
 
 You can also specify custom environment variables to start the pushpin service in semi-colon separated form.
 
 ```shell
 export PUSHPIN_CUSTOM_ENV="USER=alpha;HOST=beta"
-dokku pushpin:create lolipop
+dokku pushpin:create lollipop
 ```
 
 ### print the service information
@@ -106,22 +106,22 @@ flags:
 Get connection information as follows:
 
 ```shell
-dokku pushpin:info lolipop
+dokku pushpin:info lollipop
 ```
 
 You can also retrieve a specific piece of service info via flags:
 
 ```shell
-dokku pushpin:info lolipop --config-dir
-dokku pushpin:info lolipop --data-dir
-dokku pushpin:info lolipop --dsn
-dokku pushpin:info lolipop --exposed-ports
-dokku pushpin:info lolipop --id
-dokku pushpin:info lolipop --internal-ip
-dokku pushpin:info lolipop --links
-dokku pushpin:info lolipop --service-root
-dokku pushpin:info lolipop --status
-dokku pushpin:info lolipop --version
+dokku pushpin:info lollipop --config-dir
+dokku pushpin:info lollipop --data-dir
+dokku pushpin:info lollipop --dsn
+dokku pushpin:info lollipop --exposed-ports
+dokku pushpin:info lollipop --id
+dokku pushpin:info lollipop --internal-ip
+dokku pushpin:info lollipop --links
+dokku pushpin:info lollipop --service-root
+dokku pushpin:info lollipop --status
+dokku pushpin:info lollipop --version
 ```
 
 ### list all pushpin services
@@ -151,13 +151,13 @@ flags:
 You can tail logs for a particular service:
 
 ```shell
-dokku pushpin:logs lolipop
+dokku pushpin:logs lollipop
 ```
 
 By default, logs will not be tailed, but you can do this with the --tail flag:
 
 ```shell
-dokku pushpin:logs lolipop --tail
+dokku pushpin:logs lollipop --tail
 ```
 
 ### link the pushpin service to the app
@@ -177,24 +177,24 @@ A pushpin service can be linked to a container. This will use native docker link
 > NOTE: this will restart your app
 
 ```shell
-dokku pushpin:link lolipop playground
+dokku pushpin:link lollipop playground
 ```
 
 The following environment variables will be set automatically by docker (not on the app itself, so they won’t be listed when calling dokku config):
 
 ```
-DOKKU_PUSHPIN_LOLIPOP_NAME=/lolipop/DATABASE
-DOKKU_PUSHPIN_LOLIPOP_PORT=tcp://172.17.0.1:5561
-DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP=tcp://172.17.0.1:5561
-DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP_PROTO=tcp
-DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP_PORT=5561
-DOKKU_PUSHPIN_LOLIPOP_PORT_5561_TCP_ADDR=172.17.0.1
+DOKKU_PUSHPIN_LOLLIPOP_NAME=/lollipop/DATABASE
+DOKKU_PUSHPIN_LOLLIPOP_PORT=tcp://172.17.0.1:5561
+DOKKU_PUSHPIN_LOLLIPOP_PORT_5561_TCP=tcp://172.17.0.1:5561
+DOKKU_PUSHPIN_LOLLIPOP_PORT_5561_TCP_PROTO=tcp
+DOKKU_PUSHPIN_LOLLIPOP_PORT_5561_TCP_PORT=5561
+DOKKU_PUSHPIN_LOLLIPOP_PORT_5561_TCP_ADDR=172.17.0.1
 ```
 
 The following will be set on the linked application by default:
 
 ```
-WEBSOCKET_URL=websocket://dokku-pushpin-lolipop:5561
+WEBSOCKET_URL=websocket://dokku-pushpin-lollipop:5561
 ```
 
 The host exposed here only works internally in docker containers. If you want your container to be reachable from outside, you should use the `expose` subcommand. Another service can be linked to your app:
@@ -207,13 +207,13 @@ It is possible to change the protocol for `WEBSOCKET_URL` by setting the environ
 
 ```shell
 dokku config:set playground PUSHPIN_DATABASE_SCHEME=websocket2
-dokku pushpin:link lolipop playground
+dokku pushpin:link lollipop playground
 ```
 
 This will cause `WEBSOCKET_URL` to be set as:
 
 ```
-websocket2://dokku-pushpin-lolipop:5561
+websocket2://dokku-pushpin-lollipop:5561
 ```
 
 ### unlink the pushpin service from the app
@@ -228,7 +228,7 @@ You can unlink a pushpin service:
 > NOTE: this will restart your app and unset related environment variables
 
 ```shell
-dokku pushpin:unlink lolipop playground
+dokku pushpin:unlink lollipop playground
 ```
 
 ### Service Lifecycle
@@ -245,13 +245,13 @@ dokku pushpin:enter <service>
 A bash prompt can be opened against a running service. Filesystem changes will not be saved to disk.
 
 ```shell
-dokku pushpin:enter lolipop
+dokku pushpin:enter lollipop
 ```
 
 You may also run a command directly against the service. Filesystem changes will not be saved to disk.
 
 ```shell
-dokku pushpin:enter lolipop touch /tmp/test
+dokku pushpin:enter lollipop touch /tmp/test
 ```
 
 ### expose a pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
@@ -264,13 +264,13 @@ dokku pushpin:expose <service> <ports...>
 Expose the service on the service's normal ports, allowing access to it from the public interface (`0.0.0.0`):
 
 ```shell
-dokku pushpin:expose lolipop 5561 7999 5560 5562 5563
+dokku pushpin:expose lollipop 5561 7999 5560 5562 5563
 ```
 
 Expose the service on the service's normal ports, with the first on a specified ip adddress (127.0.0.1):
 
 ```shell
-dokku pushpin:expose lolipop 127.0.0.1:5561 7999 5560 5562 5563
+dokku pushpin:expose lollipop 127.0.0.1:5561 7999 5560 5562 5563
 ```
 
 ### unexpose a previously exposed pushpin service
@@ -283,7 +283,7 @@ dokku pushpin:unexpose <service>
 Unexpose the service, removing access to it from the public interface (`0.0.0.0`):
 
 ```shell
-dokku pushpin:unexpose lolipop
+dokku pushpin:unexpose lollipop
 ```
 
 ### promote service <service> as WEBSOCKET_URL in <app>
@@ -312,7 +312,7 @@ This will replace `WEBSOCKET_URL` with the url from other_service and generate a
 ```
 WEBSOCKET_URL=websocket://other_service:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
 DOKKU_WEBSOCKET_BLUE_URL=websocket://other_service:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
-DOKKU_WEBSOCKET_SILVER_URL=websocket://lolipop:SOME_PASSWORD@dokku-pushpin-lolipop:5561/lolipop
+DOKKU_WEBSOCKET_SILVER_URL=websocket://lollipop:SOME_PASSWORD@dokku-pushpin-lollipop:5561/lollipop
 ```
 
 ### start a previously stopped pushpin service
@@ -325,7 +325,7 @@ dokku pushpin:start <service>
 Start the service:
 
 ```shell
-dokku pushpin:start lolipop
+dokku pushpin:start lollipop
 ```
 
 ### stop a running pushpin service
@@ -338,7 +338,7 @@ dokku pushpin:stop <service>
 Stop the service and the running container:
 
 ```shell
-dokku pushpin:stop lolipop
+dokku pushpin:stop lollipop
 ```
 
 ### graceful shutdown and restart of the pushpin service container
@@ -351,7 +351,7 @@ dokku pushpin:restart <service>
 Restart the service:
 
 ```shell
-dokku pushpin:restart lolipop
+dokku pushpin:restart lollipop
 ```
 
 ### upgrade service <service> to the specified versions
@@ -373,7 +373,7 @@ flags:
 You can upgrade an existing service to a new image or image-version:
 
 ```shell
-dokku pushpin:upgrade lolipop
+dokku pushpin:upgrade lollipop
 ```
 
 ### Service Automation
@@ -400,10 +400,10 @@ dokku pushpin:app-links playground
 dokku pushpin:exists <service>
 ```
 
-Here we check if the lolipop pushpin service exists.
+Here we check if the lollipop pushpin service exists.
 
 ```shell
-dokku pushpin:exists lolipop
+dokku pushpin:exists lollipop
 ```
 
 ### check if the pushpin service is linked to an app
@@ -413,10 +413,10 @@ dokku pushpin:exists lolipop
 dokku pushpin:linked <service> <app>
 ```
 
-Here we check if the lolipop pushpin service is linked to the `playground` app.
+Here we check if the lollipop pushpin service is linked to the `playground` app.
 
 ```shell
-dokku pushpin:linked lolipop playground
+dokku pushpin:linked lollipop playground
 ```
 
 ### list all apps linked to the pushpin service
@@ -426,10 +426,10 @@ dokku pushpin:linked lolipop playground
 dokku pushpin:links <service>
 ```
 
-List all apps linked to the `lolipop` pushpin service.
+List all apps linked to the `lollipop` pushpin service.
 
 ```shell
-dokku pushpin:links lolipop
+dokku pushpin:links lollipop
 ```
 
 ### Disabling `docker pull` calls
