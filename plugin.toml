@@ -1,4 +1,4 @@
 [plugin]
 description = "dokku pushpin service plugin"
-version = "0.5.1"
+version = "0.6.0"
 [plugin.config]
