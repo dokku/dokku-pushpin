@@ -17,25 +17,25 @@ sudo dokku plugin:install https://github.com/dokku/dokku-pushpin.git pushpin
 ## Commands
 
 ```
-pushpin:app-links <app>                        # list all pushpin service links for a given app
-pushpin:create <service> [--create-flags...]   # create a pushpin service
-pushpin:destroy <service> [-f|--force]         # delete the pushpin service/data/container if there are no links left
-pushpin:enter <service>                        # enter or run a command in a running pushpin service container
-pushpin:exists <service>                       # check if the pushpin service exists
-pushpin:expose <service> <ports...>            # expose a pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
-pushpin:info <service> [--single-info-flag]    # print the service information
-pushpin:link <service> <app> [--link-flags...] # link the pushpin service to the app
-pushpin:linked <service> <app>                 # check if the pushpin service is linked to an app
-pushpin:links <service>                        # list all apps linked to the pushpin service
-pushpin:list                                   # list all pushpin services
-pushpin:logs <service> [-t|--tail]             # print the most recent log(s) for this service
-pushpin:promote <service> <app>                # promote service <service> as WEBSOCKET_URL in <app>
-pushpin:restart <service>                      # graceful shutdown and restart of the pushpin service container
-pushpin:start <service>                        # start a previously stopped pushpin service
-pushpin:stop <service>                         # stop a running pushpin service
-pushpin:unexpose <service>                     # unexpose a previously exposed pushpin service
-pushpin:unlink <service> <app>                 # unlink the pushpin service from the app
-pushpin:upgrade <service> [--upgrade-flags...] # upgrade service <service> to the specified versions
+pushpin:app-links <app>                            # list all pushpin service links for a given app
+pushpin:create <service> [--create-flags...]       # create a pushpin service
+pushpin:destroy <service> [-f|--force]             # delete the pushpin service/data/container if there are no links left
+pushpin:enter <service>                            # enter or run a command in a running pushpin service container
+pushpin:exists <service>                           # check if the pushpin service exists
+pushpin:expose <service> <ports...>                # expose a pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
+pushpin:info <service> [--single-info-flag]        # print the service information
+pushpin:link <service> <app> [--link-flags...]     # link the pushpin service to the app
+pushpin:linked <service> <app>                     # check if the pushpin service is linked to an app
+pushpin:links <service>                            # list all apps linked to the pushpin service
+pushpin:list                                       # list all pushpin services
+pushpin:logs <service> [-t|--tail] <tail-num-optional> # print the most recent log(s) for this service
+pushpin:promote <service> <app>                    # promote service <service> as WEBSOCKET_URL in <app>
+pushpin:restart <service>                          # graceful shutdown and restart of the pushpin service container
+pushpin:start <service>                            # start a previously stopped pushpin service
+pushpin:stop <service>                             # stop a running pushpin service
+pushpin:unexpose <service>                         # unexpose a previously exposed pushpin service
+pushpin:unlink <service> <app>                     # unlink the pushpin service from the app
+pushpin:upgrade <service> [--upgrade-flags...]     # upgrade service <service> to the specified versions
 ```
 
 ## Usage
@@ -141,12 +141,12 @@ dokku pushpin:list
 
 ```shell
 # usage
-dokku pushpin:logs <service> [-t|--tail]
+dokku pushpin:logs <service> [-t|--tail] <tail-num-optional>
 ```
 
 flags:
 
-- `-t|--tail`: do not stop when end of the logs are reached and wait for additional output
+- `-t|--tail [<tail-num>]`: do not stop when end of the logs are reached and wait for additional output
 
 You can tail logs for a particular service:
 
@@ -158,6 +158,12 @@ By default, logs will not be tailed, but you can do this with the --tail flag:
 
 ```shell
 dokku pushpin:logs lollipop --tail
+```
+
+The default tail setting is to show all logs, but an initial count can also be specified:
+
+```shell
+dokku pushpin:logs lollipop --tail 5
 ```
 
 ### link the pushpin service to the app
