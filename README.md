@@ -29,6 +29,7 @@ pushpin:linked <service> <app>                     # check if the pushpin servic
 pushpin:links <service>                            # list all apps linked to the pushpin service
 pushpin:list                                       # list all pushpin services
 pushpin:logs <service> [-t|--tail] <tail-num-optional> # print the most recent log(s) for this service
+pushpin:pause <service>                            # pause a running pushpin service
 pushpin:promote <service> <app>                    # promote service <service> as WEBSOCKET_URL in <app>
 pushpin:restart <service>                          # graceful shutdown and restart of the pushpin service container
 pushpin:start <service>                            # start a previously stopped pushpin service
@@ -343,10 +344,23 @@ dokku pushpin:start lollipop
 dokku pushpin:stop <service>
 ```
 
-Stop the service and the running container:
+Stop the service and removes the running container:
 
 ```shell
 dokku pushpin:stop lollipop
+```
+
+### pause a running pushpin service
+
+```shell
+# usage
+dokku pushpin:pause <service>
+```
+
+Pause the running container for the service:
+
+```shell
+dokku pushpin:pause lollipop
 ```
 
 ### graceful shutdown and restart of the pushpin service container
