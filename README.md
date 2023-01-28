@@ -1,4 +1,4 @@
-# dokku pushpin [![Build Status](https://img.shields.io/github/workflow/status/dokku/dokku-pushpin/CI/master?style=flat-square "Build Status")](https://github.com/dokku/dokku-pushpin/actions/workflows/ci.yml?query=branch%3Amaster) [![IRC Network](https://img.shields.io/badge/irc-libera-blue.svg?style=flat-square "IRC Libera")](https://webchat.libera.chat/?channels=dokku)
+# dokku pushpin [![Build Status](https://img.shields.io/github/actions/workflow/status/dokku/dokku-pushpin/ci.yml?branch=master&style=flat-square "Build Status")](https://github.com/dokku/dokku-pushpin/actions/workflows/ci.yml?query=branch%3Amaster) [![IRC Network](https://img.shields.io/badge/irc-libera-blue.svg?style=flat-square "IRC Libera")](https://webchat.libera.chat/?channels=dokku)
 
 Official pushpin plugin for dokku. Currently defaults to installing [fanout/pushpin 1.36.0](https://hub.docker.com/r/fanout/pushpin/).
 
