@@ -100,7 +100,10 @@ flags:
 - `--exposed-ports`: show service exposed ports
 - `--id`: show the service container id
 - `--internal-ip`: show the service internal ip
+- `--initial-network`: show the initial network being connected to
 - `--links`: show the service app links
+- `--post-create-network`: show the networks to attach to after service container creation
+- `--post-start-network`: show the networks to attach to after service container start
 - `--service-root`: show the service root directory
 - `--status`: show the service running status
 - `--version`: show the service image version
@@ -120,7 +123,10 @@ dokku pushpin:info lollipop --dsn
 dokku pushpin:info lollipop --exposed-ports
 dokku pushpin:info lollipop --id
 dokku pushpin:info lollipop --internal-ip
+dokku pushpin:info lollipop --initial-network
 dokku pushpin:info lollipop --links
+dokku pushpin:info lollipop --post-create-network
+dokku pushpin:info lollipop --post-start-network
 dokku pushpin:info lollipop --service-root
 dokku pushpin:info lollipop --status
 dokku pushpin:info lollipop --version
