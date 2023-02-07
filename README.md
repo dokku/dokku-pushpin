@@ -32,6 +32,7 @@ pushpin:logs <service> [-t|--tail] <tail-num-optional> # print the most recent l
 pushpin:pause <service>                            # pause a running pushpin service
 pushpin:promote <service> <app>                    # promote service <service> as WEBSOCKET_URL in <app>
 pushpin:restart <service>                          # graceful shutdown and restart of the pushpin service container
+pushpin:set <service> <key> <value>                # set or clear a property for a service
 pushpin:start <service>                            # start a previously stopped pushpin service
 pushpin:stop <service>                             # stop a running pushpin service
 pushpin:unexpose <service>                         # unexpose a previously exposed pushpin service
@@ -236,6 +237,25 @@ You can unlink a pushpin service:
 
 ```shell
 dokku pushpin:unlink lollipop playground
+```
+
+### set or clear a property for a service
+
+```shell
+# usage
+dokku pushpin:set <service> <key> <value>
+```
+
+Set the network to attach after the service container is started:
+
+```shell
+dokku pushpin:set lollipop post-create-network custom-network
+```
+
+Unset the post-create-network value:
+
+```shell
+dokku pushpin:set lollipop post-create-network
 ```
 
 ### Service Lifecycle
