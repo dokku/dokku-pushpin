@@ -32,6 +32,7 @@ pushpin:logs <service> [-t|--tail] <tail-num-optional> # print the most recent l
 pushpin:pause <service>                            # pause a running pushpin service
 pushpin:promote <service> <app>                    # promote service <service> as WEBSOCKET_URL in <app>
 pushpin:restart <service>                          # graceful shutdown and restart of the pushpin service container
+pushpin:set <service> <key> <value>                # set or clear a property for a service
 pushpin:start <service>                            # start a previously stopped pushpin service
 pushpin:stop <service>                             # stop a running pushpin service
 pushpin:unexpose <service>                         # unexpose a previously exposed pushpin service
@@ -99,7 +100,10 @@ flags:
 - `--exposed-ports`: show service exposed ports
 - `--id`: show the service container id
 - `--internal-ip`: show the service internal ip
+- `--initial-network`: show the initial network being connected to
 - `--links`: show the service app links
+- `--post-create-network`: show the networks to attach to after service container creation
+- `--post-start-network`: show the networks to attach to after service container start
 - `--service-root`: show the service root directory
 - `--status`: show the service running status
 - `--version`: show the service image version
@@ -119,7 +123,10 @@ dokku pushpin:info lollipop --dsn
 dokku pushpin:info lollipop --exposed-ports
 dokku pushpin:info lollipop --id
 dokku pushpin:info lollipop --internal-ip
+dokku pushpin:info lollipop --initial-network
 dokku pushpin:info lollipop --links
+dokku pushpin:info lollipop --post-create-network
+dokku pushpin:info lollipop --post-start-network
 dokku pushpin:info lollipop --service-root
 dokku pushpin:info lollipop --status
 dokku pushpin:info lollipop --version
@@ -236,6 +243,31 @@ You can unlink a pushpin service:
 
 ```shell
 dokku pushpin:unlink lollipop playground
+```
+
+### set or clear a property for a service
+
+```shell
+# usage
+dokku pushpin:set <service> <key> <value>
+```
+
+Set the network to attach after the service container is started:
+
+```shell
+dokku pushpin:set lollipop post-create-network custom-network
+```
+
+Set multiple networks:
+
+```shell
+dokku pushpin:set lollipop post-create-network custom-network,other-network
+```
+
+Unset the post-create-network value:
+
+```shell
+dokku pushpin:set lollipop post-create-network
 ```
 
 ### Service Lifecycle
