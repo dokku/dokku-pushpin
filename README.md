@@ -212,7 +212,7 @@ DOKKU_PUSHPIN_LOLLIPOP_PORT_5561_TCP_ADDR=172.17.0.1
 The following will be set on the linked application by default:
 
 ```
-WEBSOCKET_URL=websocket://lollipop:SOME_PASSWORD@dokku-pushpin-lollipop:5561/lollipop
+WEBSOCKET_URL=websocket://dokku-pushpin-lollipop:5561/lollipop
 ```
 
 The host exposed here only works internally in docker containers. If you want your container to be reachable from outside, you should use the `expose` subcommand. Another service can be linked to your app:
@@ -231,13 +231,7 @@ dokku pushpin:link lollipop playground
 This will cause `WEBSOCKET_URL` to be set as:
 
 ```
-websocket2://lollipop:SOME_PASSWORD@dokku-pushpin-lollipop:5561/lollipop
-```
-
-If you specify `PUSHPIN_DATABASE_SCHEME` to equal `http`, we`ll also automatically adjust `WEBSOCKET_URL` to match the http interface:
-
-```
-http://lollipop:SOME_PASSWORD@dokku-pushpin-lollipop:${PLUGIN_DATASTORE_PORTS[1]}
+websocket2://dokku-pushpin-lollipop:5561/lollipop
 ```
 
 ### unlink the pushpin service from the app
