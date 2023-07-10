@@ -1,1 +1,1 @@
-FROM fanout/pushpin:1.36.0
+FROM fanout/pushpin:1.37.0
