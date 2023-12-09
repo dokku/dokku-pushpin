@@ -81,7 +81,7 @@ export PUSHPIN_IMAGE_VERSION="${PLUGIN_IMAGE_VERSION}"
 dokku pushpin:create lollipop
 ```
 
-You can also specify custom environment variables to start the pushpin service in semi-colon separated form.
+You can also specify custom environment variables to start the pushpin service in semicolon-separated form.
 
 ```shell
 export PUSHPIN_CUSTOM_ENV="USER=alpha;HOST=beta"
