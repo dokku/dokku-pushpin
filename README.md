@@ -11,7 +11,7 @@ Official pushpin plugin for dokku. Currently defaults to installing [fanout/push
 
 ```shell
 # on 0.19.x+
-sudo dokku plugin:install https://github.com/dokku/dokku-pushpin.git pushpin
+sudo dokku plugin:install https://github.com/dokku/dokku-pushpin.git --name pushpin
 ```
 
 ## Commands
