@@ -318,7 +318,7 @@ Expose the service on the service's normal ports, allowing access to it from the
 dokku pushpin:expose lollipop 5561 7999 5560 5562 5563
 ```
 
-Expose the service on the service's normal ports, with the first on a specified ip adddress (127.0.0.1):
+Expose the service on the service's normal ports, with the first on a specified ip address (127.0.0.1):
 
 ```shell
 dokku pushpin:expose lollipop 127.0.0.1:5561 7999 5560 5562 5563
