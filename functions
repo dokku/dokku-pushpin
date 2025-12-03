@@ -69,13 +69,13 @@ service_create_container() {
   [[ -f "$SERVICE_ROOT/IMAGE_VERSION" ]] && PLUGIN_IMAGE_VERSION="$(cat "$SERVICE_ROOT/IMAGE_VERSION")"
 
   if [[ ! -f "$SERVICE_ROOT/$PLUGIN_CONFIG_SUFFIX/pushpin.conf" ]]; then
+    mkdir -p "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX"
+    sudo /bin/chown -R 1001:1001 "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX"
     "$DOCKER_BIN" container create --label dokku=service.tmp --name "tmp.$SERVICE_NAME" "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION"
     "$DOCKER_BIN" container cp "tmp.$SERVICE_NAME:/etc/pushpin/pushpin.conf" "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX/pushpin.conf" 2>/dev/null
     "$DOCKER_BIN" container cp "tmp.$SERVICE_NAME:/etc/pushpin/routes" "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX/routes" 2>/dev/null
     docker rm "tmp.$SERVICE_NAME" >/dev/null 2>&1 || true
   fi
-
-  chown -R 1001:1001 "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX"
 
   if [[ -f "$SERVICE_ROOT/CONFIG_OPTIONS" ]]; then
     export CONFIG_OPTIONS="$(cat "$SERVICE_ROOT/CONFIG_OPTIONS")"
