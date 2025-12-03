@@ -65,8 +65,13 @@ service_create_container() {
   local SERVICE_HOST_ROOT="$PLUGIN_DATA_HOST_ROOT/$SERVICE"
   local SERVICE_NAME="$(get_service_name "$SERVICE")"
 
+  [[ -f "$SERVICE_ROOT/IMAGE" ]] && PLUGIN_IMAGE="$(cat "$SERVICE_ROOT/IMAGE")"
+  [[ -f "$SERVICE_ROOT/IMAGE_VERSION" ]] && PLUGIN_IMAGE_VERSION="$(cat "$SERVICE_ROOT/IMAGE_VERSION")"
+
   if [[ ! -f "$SERVICE_ROOT/$PLUGIN_CONFIG_SUFFIX/pushpin.conf" ]]; then
-    "$DOCKER_BIN" container create --label dokku=service.tmp --name "tmp.$SERVICE_NAME" fanout/pushpin:1.28.0
+    mkdir -p "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX"
+    sudo /bin/chown -R 1001:1001 "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX"
+    "$DOCKER_BIN" container create --label dokku=service.tmp --name "tmp.$SERVICE_NAME" "$PLUGIN_IMAGE:$PLUGIN_IMAGE_VERSION"
     "$DOCKER_BIN" container cp "tmp.$SERVICE_NAME:/etc/pushpin/pushpin.conf" "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX/pushpin.conf" 2>/dev/null
     "$DOCKER_BIN" container cp "tmp.$SERVICE_NAME:/etc/pushpin/routes" "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX/routes" 2>/dev/null
     docker rm "tmp.$SERVICE_NAME" >/dev/null 2>&1 || true
@@ -105,9 +110,6 @@ service_create_container() {
   if [[ -n "$SERVICE_SHM_SIZE" ]]; then
     DOCKER_ARGS+=("--shm-size=${SERVICE_SHM_SIZE}")
   fi
-
-  [[ -f "$SERVICE_ROOT/IMAGE" ]] && PLUGIN_IMAGE="$(cat "$SERVICE_ROOT/IMAGE")"
-  [[ -f "$SERVICE_ROOT/IMAGE_VERSION" ]] && PLUGIN_IMAGE_VERSION="$(cat "$SERVICE_ROOT/IMAGE_VERSION")"
 
   local network="$(fn-plugin-property-get "$PLUGIN_COMMAND_PREFIX" "$SERVICE" "initial-network")"
   if [[ -n "$network" ]]; then
