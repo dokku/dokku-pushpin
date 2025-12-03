@@ -75,6 +75,8 @@ service_create_container() {
     docker rm "tmp.$SERVICE_NAME" >/dev/null 2>&1 || true
   fi
 
+  chown -R 1001:1001 "$SERVICE_HOST_ROOT/$PLUGIN_CONFIG_SUFFIX"
+
   if [[ -f "$SERVICE_ROOT/CONFIG_OPTIONS" ]]; then
     export CONFIG_OPTIONS="$(cat "$SERVICE_ROOT/CONFIG_OPTIONS")"
   fi
