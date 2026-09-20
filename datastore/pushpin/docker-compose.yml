@@ -1,0 +1,78 @@
+---
+services:
+  pushpin:
+    image: "{{ .Image }}:{{ .ImageVersion }}"
+
+    volumes:
+      - type: bind
+        source: "{{ .HostRoot }}/config"
+        target: /etc/pushpin
+
+    ports:
+      # where an app publishes to, which is what a linked app is handed
+      - name: publish
+        target: 5561
+        primary: true
+
+      # the port pushpin serves its clients on
+      - name: http
+        target: 7999
+
+      # the three the configuration file names as zeromq endpoints, which the
+      # image binds to localhost until an operator says otherwise
+      - name: push
+        target: 5560
+      - name: subscribe
+        target: 5562
+      - name: command
+        target: 5563
+
+x-dokku:
+  plugin: pushpin
+  title: Pushpin
+  scheme: websocket
+
+  # WEBSOCKET rather than PUSHPIN: an app is handed the url on WEBSOCKET_URL
+  alias: WEBSOCKET
+
+  dsn: "{{ .Scheme }}://{{ .Host }}:{{ .Port.publish }}"
+
+  # readiness is the publish port rather than the one clients are served on,
+  # which is the one a linked app is about to use
+  wait: publish
+
+  # no credentials: pushpin has no authentication and the url carries none.
+  # The bash plugin generates a password and writes it to disk, where nothing
+  # ever reads it.
+
+  hooks:
+    pre_create:
+      # the image's own configuration, copied out before the mount hides it.
+      # It runs in the service's own image, so the files are the ones that
+      # image ships rather than a copy this repo would have to keep current.
+      user: "0"
+      volumes:
+        - type: bind
+          source: "{{ .HostRoot }}/config"
+          target: /seed
+      exec:
+        - sh
+        - -c
+        # copied only when absent, so that an operator's edits are never
+        # overwritten: the files are theirs once they exist.
+        #
+        # The directory changes hands as well as the files, because the
+        # image's entrypoint edits its configuration in place and sed writes
+        # its temporary file beside the original. Only the owner changes: the
+        # group stays dokku, which keeps the group write the service folders
+        # are made with, so destroy can still take the service root away
+        # again. Setting it from a container that is already root is also
+        # what retires the plugin's sudo chown.
+        - >-
+          test -f /seed/pushpin.conf || cp /etc/pushpin/pushpin.conf /seed/pushpin.conf;
+          test -f /seed/routes || cp /etc/pushpin/routes /seed/routes;
+          chown 1001 /seed /seed/pushpin.conf /seed/routes
+
+  # pushpin proxies rather than stores, so there is nothing to connect to,
+  # nothing to dump and nothing to load. Clone and the backup family fall out
+  # of that, which is the list the bash plugin kept by hand.

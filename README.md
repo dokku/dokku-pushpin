@@ -1,44 +1,42 @@
 # dokku pushpin [![Build Status](https://img.shields.io/github/actions/workflow/status/dokku/dokku-pushpin/ci.yml?branch=master&style=flat-square "Build Status")](https://github.com/dokku/dokku-pushpin/actions/workflows/ci.yml?query=branch%3Amaster) [![IRC Network](https://img.shields.io/badge/irc-libera-blue.svg?style=flat-square "IRC Libera")](https://webchat.libera.chat/?channels=dokku)
 
-Official pushpin plugin for dokku. Currently defaults to installing [fanout/pushpin 1.41.0](https://hub.docker.com/r/fanout/pushpin/).
+Official pushpin plugin for dokku. Currently defaults to installing [fanout/pushpin 1.42.0](https://hub.docker.com/r/fanout/pushpin/).
 
 ## Requirements
 
-- dokku 0.19.x+
+- dokku 0.35.x+
 - docker 1.8.x
 
 ## Installation
 
 ```shell
-# on 0.19.x+
+# on 0.35.x+
 sudo dokku plugin:install https://github.com/dokku/dokku-pushpin.git --name pushpin
 ```
 
 ## Commands
 
 ```
-pushpin:app-links <app>                            # list all pushpin service links for a given app
-pushpin:backup-set-public-key-encryption <service> <public-key-id> # set GPG Public Key encryption for all future backups of pushpin service
-pushpin:backup-unset-public-key-encryption <service> # unset GPG Public Key encryption for future backups of the pushpin service
-pushpin:create <service> [--create-flags...]       # create a pushpin service
-pushpin:destroy <service> [-f|--force]             # delete the pushpin service/data/container if there are no links left
-pushpin:enter <service>                            # enter or run a command in a running pushpin service container
-pushpin:exists <service>                           # check if the pushpin service exists
-pushpin:expose <service> <ports...>                # expose a pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
-pushpin:info <service> [--single-info-flag]        # print the service information
-pushpin:link <service> <app> [--link-flags...]     # link the pushpin service to the app
-pushpin:linked <service> <app>                     # check if the pushpin service is linked to an app
-pushpin:links <service>                            # list all apps linked to the pushpin service
-pushpin:list                                       # list all pushpin services
-pushpin:logs <service> [-t|--tail] <tail-num-optional> # print the most recent log(s) for this service
-pushpin:pause <service>                            # pause a running pushpin service
-pushpin:promote <service> <app>                    # promote service <service> as WEBSOCKET_URL in <app>
-pushpin:restart <service>                          # graceful shutdown and restart of the pushpin service container
+pushpin:app-links [<app>]                          # list all Pushpin service links for a given app
+pushpin:create <service> [--create-flags...]       # create a Pushpin service
+pushpin:destroy <service> [-f|--force]             # delete the Pushpin service/data/container if there are no links left
+pushpin:enter <service>                            # enter or run a command in a running Pushpin service container
+pushpin:exists <service>                           # check if the Pushpin service exists
+pushpin:expose <service> <ports...>                # expose a Pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
+pushpin:info <service> [--info-flags...]           # print the service information
+pushpin:link <service> [<app>] [--link-flags...]   # link the Pushpin service to the app
+pushpin:linked <service> [<app>]                   # check if the Pushpin service is linked to an app
+pushpin:links <service>                            # list all apps linked to the Pushpin service
+pushpin:list                                       # list all Pushpin services
+pushpin:logs <service> [-t|--tail [<tail-num>]]    # print the most recent log(s) for this service
+pushpin:pause <service>                            # pause a running Pushpin service
+pushpin:promote <service> [<app>]                  # promote service <service> as WEBSOCKET_URL in <app>
+pushpin:restart <service>                          # graceful shutdown and restart of the Pushpin service container
 pushpin:set <service> <key> <value>                # set or clear a property for a service
-pushpin:start <service>                            # start a previously stopped pushpin service
-pushpin:stop <service>                             # stop a running pushpin service
-pushpin:unexpose <service>                         # unexpose a previously exposed pushpin service
-pushpin:unlink <service> <app>                     # unlink the pushpin service from the app
+pushpin:start <service>                            # start a previously stopped Pushpin service
+pushpin:stop <service>                             # stop a running Pushpin service
+pushpin:unexpose <service>                         # unexpose a previously exposed Pushpin service
+pushpin:unlink <service> [<app>] [-n|--no-restart] # unlink the Pushpin service from the app
 pushpin:upgrade <service> [--upgrade-flags...]     # upgrade service <service> to the specified versions
 ```
 
@@ -48,7 +46,7 @@ Help for any commands can be displayed by specifying the command as an argument 
 
 ### Basic Usage
 
-### create a pushpin service
+### create a Pushpin service
 
 ```shell
 # usage
@@ -57,17 +55,17 @@ dokku pushpin:create <service> [--create-flags...]
 
 flags:
 
-- `-c|--config-options "--args --go=here"`: extra arguments to pass to the container create command (default: `None`)
-- `-C|--custom-env "USER=alpha;HOST=beta"`: semi-colon delimited environment variables to start the service with
-- `-i|--image IMAGE`: the image name to start the service with
-- `-I|--image-version IMAGE_VERSION`: the image version to start the service with
-- `-m|--memory MEMORY`: container memory limit in megabytes (default: unlimited)
-- `-N|--initial-network INITIAL_NETWORK`: the initial network to attach the service to
-- `-p|--password PASSWORD`: override the user-level service password
-- `-P|--post-create-network NETWORKS`: a comma-separated list of networks to attach the service container to after service creation
-- `-r|--root-password PASSWORD`: override the root-level service password
-- `-S|--post-start-network NETWORKS`: a comma-separated list of networks to attach the service container to after service start
-- `-s|--shm-size SHM_SIZE`: override shared memory size for pushpin docker container
+- `-c|--config-options <string>`: extra arguments to pass to the container create command
+- `-C|--custom-env <string>`: semi-colon delimited environment variables to start the service with
+- `-i|--image <string>`: the image name to start the service with
+- `-I|--image-version <string>`: the image version to start the service with
+- `-N|--initial-network <string>`: the initial network to attach the service to
+- `-m|--memory <int>`: container memory limit in megabytes (default: unlimited)
+- `-p|--password <string>`: override the user-level service password
+- `-P|--post-create-network <strings>`: a comma-separated list of networks to attach the service container to after service creation
+- `-S|--post-start-network <strings>`: a comma-separated list of networks to attach the service container to after service start
+- `-r|--root-password <string>`: override the root-level service password
+- `-s|--shm-size <string>`: override shared memory size for the service docker container
 
 Create a pushpin service named lollipop:
 
@@ -79,7 +77,7 @@ You can also specify the image and image version to use for the service. It *mus
 
 ```shell
 export PUSHPIN_IMAGE="fanout/pushpin"
-export PUSHPIN_IMAGE_VERSION="${PLUGIN_IMAGE_VERSION}"
+export PUSHPIN_IMAGE_VERSION="1.42.0"
 dokku pushpin:create lollipop
 ```
 
@@ -90,11 +88,28 @@ export PUSHPIN_CUSTOM_ENV="USER=alpha;HOST=beta"
 dokku pushpin:create lollipop
 ```
 
+### delete the Pushpin service/data/container if there are no links left
+
+```shell
+# usage
+dokku pushpin:destroy <service> [-f|--force]
+```
+
+flags:
+
+- `-f|--force`: force the destruction of the service
+
+Destroy the service, it's data, and the running container:
+
+```shell
+dokku pushpin:destroy lollipop
+```
+
 ### print the service information
 
 ```shell
 # usage
-dokku pushpin:info <service> [--single-info-flag]
+dokku pushpin:info <service> [--info-flags...]
 ```
 
 flags:
@@ -104,8 +119,8 @@ flags:
 - `--dsn`: show the service DSN
 - `--exposed-ports`: show service exposed ports
 - `--id`: show the service container id
-- `--internal-ip`: show the service internal ip
 - `--initial-network`: show the initial network being connected to
+- `--internal-ip`: show the service internal ip
 - `--links`: show the service app links
 - `--post-create-network`: show the networks to attach to after service container creation
 - `--post-start-network`: show the networks to attach to after service container start
@@ -137,7 +152,7 @@ dokku pushpin:info lollipop --status
 dokku pushpin:info lollipop --version
 ```
 
-### list all pushpin services
+### list all Pushpin services
 
 ```shell
 # usage
@@ -154,12 +169,12 @@ dokku pushpin:list
 
 ```shell
 # usage
-dokku pushpin:logs <service> [-t|--tail] <tail-num-optional>
+dokku pushpin:logs <service> [-t|--tail [<tail-num>]]
 ```
 
 flags:
 
-- `-t|--tail [<tail-num>]`: do not stop when end of the logs are reached and wait for additional output
+- `-t|--tail <int>`: tail the logs, optionally showing this many lines
 
 You can tail logs for a particular service:
 
@@ -173,24 +188,24 @@ By default, logs will not be tailed, but you can do this with the --tail flag:
 dokku pushpin:logs lollipop --tail
 ```
 
-The default tail setting is to show all logs, but an initial count can also be specified:
+By default the last 100 lines are shown, but a different count can be specified:
 
 ```shell
-dokku pushpin:logs lollipop --tail 5
+dokku pushpin:logs lollipop --tail=5
 ```
 
-### link the pushpin service to the app
+### link the Pushpin service to the app
 
 ```shell
 # usage
-dokku pushpin:link <service> <app> [--link-flags...]
+dokku pushpin:link <service> [<app>] [--link-flags...]
 ```
 
 flags:
 
-- `-a|--alias "BLUE_DATABASE"`: an alternative alias to use for linking to an app via environment variable
-- `-q|--querystring "pool=5"`: ampersand delimited querystring arguments to append to the service link
-- `-n|--no-restart "false"`: whether or not to restart the app on link (default: true)
+- `-a|--alias <string>`: an alternative alias to use for the config url exported to the app
+- `-n|--no-restart`: whether to skip restarting the app
+- `-q|--querystring <string>`: ampersand delimited querystring arguments to append to the service url
 
 A pushpin service can be linked to a container. This will use native docker links via the docker-options plugin. Here we link it to our `playground` app.
 
@@ -214,7 +229,7 @@ DOKKU_PUSHPIN_LOLLIPOP_PORT_5561_TCP_ADDR=172.17.0.1
 The following will be set on the linked application by default:
 
 ```
-WEBSOCKET_URL=websocket://dokku-pushpin-lollipop:5561/lollipop
+WEBSOCKET_URL=websocket://:SOME_PASSWORD@dokku-pushpin-lollipop:5561
 ```
 
 The host exposed here only works internally in docker containers. If you want your container to be reachable from outside, you should use the `expose` subcommand. Another service can be linked to your app:
@@ -233,19 +248,19 @@ dokku pushpin:link lollipop playground
 This will cause `WEBSOCKET_URL` to be set as:
 
 ```
-websocket2://dokku-pushpin-lollipop:5561/lollipop
+websocket2://:SOME_PASSWORD@dokku-pushpin-lollipop:5561
 ```
 
-### unlink the pushpin service from the app
+### unlink the Pushpin service from the app
 
 ```shell
 # usage
-dokku pushpin:unlink <service> <app>
+dokku pushpin:unlink <service> [<app>] [-n|--no-restart]
 ```
 
 flags:
 
-- `-n|--no-restart "false"`: whether or not to restart the app on unlink (default: true)
+- `-n|--no-restart`: whether to skip restarting the app
 
 You can unlink a pushpin service:
 
@@ -280,11 +295,17 @@ Unset the post-create-network value:
 dokku pushpin:set lollipop post-create-network
 ```
 
+Set the keyserver a public key for backup encryption is fetched from:
+
+```shell
+dokku pushpin:set lollipop backup-keyserver hkp://keys.example.com
+```
+
 ### Service Lifecycle
 
 The lifecycle of each service can be managed through the following commands:
 
-### enter or run a command in a running pushpin service container
+### enter or run a command in a running Pushpin service container
 
 ```shell
 # usage
@@ -305,7 +326,7 @@ You may also run a command directly against the service. Filesystem changes will
 dokku pushpin:enter lollipop touch /tmp/test
 ```
 
-### expose a pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
+### expose a Pushpin service on custom host:port if provided (random port on the 0.0.0.0 interface if otherwise unspecified)
 
 ```shell
 # usage
@@ -324,7 +345,7 @@ Expose the service on the service's normal ports, with the first on a specified 
 dokku pushpin:expose lollipop 127.0.0.1:5561 7999 5560 5562 5563
 ```
 
-### unexpose a previously exposed pushpin service
+### unexpose a previously exposed Pushpin service
 
 ```shell
 # usage
@@ -341,13 +362,13 @@ dokku pushpin:unexpose lollipop
 
 ```shell
 # usage
-dokku pushpin:promote <service> <app>
+dokku pushpin:promote <service> [<app>]
 ```
 
 If you have a pushpin service linked to an app and try to link another pushpin service another link environment variable will be generated automatically:
 
 ```
-DOKKU_WEBSOCKET_BLUE_URL=websocket://other_service:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
+DOKKU_WEBSOCKET_BLUE_URL=websocket://:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
 ```
 
 You can promote the new service to be the primary one:
@@ -361,12 +382,12 @@ dokku pushpin:promote other_service playground
 This will replace `WEBSOCKET_URL` with the url from other_service and generate another environment variable to hold the previous value if necessary. You could end up with the following for example:
 
 ```
-WEBSOCKET_URL=websocket://other_service:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
-DOKKU_WEBSOCKET_BLUE_URL=websocket://other_service:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
-DOKKU_WEBSOCKET_SILVER_URL=websocket://lollipop:SOME_PASSWORD@dokku-pushpin-lollipop:5561/lollipop
+WEBSOCKET_URL=websocket://:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
+DOKKU_WEBSOCKET_BLUE_URL=websocket://:ANOTHER_PASSWORD@dokku-pushpin-other-service:5561/other_service
+DOKKU_WEBSOCKET_SILVER_URL=websocket://:SOME_PASSWORD@dokku-pushpin-lollipop:5561/lollipop
 ```
 
-### start a previously stopped pushpin service
+### start a previously stopped Pushpin service
 
 ```shell
 # usage
@@ -379,7 +400,7 @@ Start the service:
 dokku pushpin:start lollipop
 ```
 
-### stop a running pushpin service
+### stop a running Pushpin service
 
 ```shell
 # usage
@@ -392,7 +413,7 @@ Stop the service and removes the running container:
 dokku pushpin:stop lollipop
 ```
 
-### pause a running pushpin service
+### pause a running Pushpin service
 
 ```shell
 # usage
@@ -405,7 +426,7 @@ Pause the running container for the service:
 dokku pushpin:pause lollipop
 ```
 
-### graceful shutdown and restart of the pushpin service container
+### graceful shutdown and restart of the Pushpin service container
 
 ```shell
 # usage
@@ -427,15 +448,15 @@ dokku pushpin:upgrade <service> [--upgrade-flags...]
 
 flags:
 
-- `-c|--config-options "--args --go=here"`: extra arguments to pass to the container create command (default: `None`)
-- `-C|--custom-env "USER=alpha;HOST=beta"`: semi-colon delimited environment variables to start the service with
-- `-i|--image IMAGE`: the image name to start the service with
-- `-I|--image-version IMAGE_VERSION`: the image version to start the service with
-- `-N|--initial-network INITIAL_NETWORK`: the initial network to attach the service to
-- `-P|--post-create-network NETWORKS`: a comma-separated list of networks to attach the service container to after service creation
-- `-R|--restart-apps "true"`: whether or not to force an app restart (default: false)
-- `-S|--post-start-network NETWORKS`: a comma-separated list of networks to attach the service container to after service start
-- `-s|--shm-size SHM_SIZE`: override shared memory size for pushpin docker container
+- `-c|--config-options <string>`: extra arguments to pass to the container create command
+- `-C|--custom-env <string>`: semi-colon delimited environment variables to start the service with
+- `-i|--image <string>`: the image to upgrade the service to
+- `-I|--image-version <string>`: the image version to upgrade the service to
+- `-N|--initial-network <string>`: the initial network to attach the service to
+- `-P|--post-create-network <strings>`: a comma-separated list of networks to attach the service container to after service creation
+- `-S|--post-start-network <strings>`: a comma-separated list of networks to attach the service container to after service start
+- `-R|--restart-apps`: whether to stop and start the linked apps around the upgrade
+- `-s|--shm-size <string>`: override shared memory size for the service docker container
 
 You can upgrade an existing service to a new image or image-version:
 
@@ -447,11 +468,11 @@ dokku pushpin:upgrade lollipop
 
 Service scripting can be executed using the following commands:
 
-### list all pushpin service links for a given app
+### list all Pushpin service links for a given app
 
 ```shell
 # usage
-dokku pushpin:app-links <app>
+dokku pushpin:app-links [<app>]
 ```
 
 List all pushpin services that are linked to the `playground` app.
@@ -460,7 +481,7 @@ List all pushpin services that are linked to the `playground` app.
 dokku pushpin:app-links playground
 ```
 
-### check if the pushpin service exists
+### check if the Pushpin service exists
 
 ```shell
 # usage
@@ -473,11 +494,11 @@ Here we check if the lollipop pushpin service exists.
 dokku pushpin:exists lollipop
 ```
 
-### check if the pushpin service is linked to an app
+### check if the Pushpin service is linked to an app
 
 ```shell
 # usage
-dokku pushpin:linked <service> <app>
+dokku pushpin:linked <service> [<app>]
 ```
 
 Here we check if the lollipop pushpin service is linked to the `playground` app.
@@ -486,7 +507,7 @@ Here we check if the lollipop pushpin service is linked to the `playground` app.
 dokku pushpin:linked lollipop playground
 ```
 
-### list all apps linked to the pushpin service
+### list all apps linked to the Pushpin service
 
 ```shell
 # usage
@@ -497,45 +518,6 @@ List all apps linked to the `lollipop` pushpin service.
 
 ```shell
 dokku pushpin:links lollipop
-```
-### Backups
-
-Datastore backups are supported via AWS S3 and S3 compatible services like [minio](https://github.com/minio/minio).
-
-You may skip the `backup-auth` step if your dokku install is running within EC2 and has access to the bucket via an IAM profile. In that case, use the `--use-iam` option with the `backup` command.
-
-If both passphrase and public key forms of encryption are set, the public key encryption will take precedence.
-
-The underlying core backup script is present [here](https://github.com/dokku/docker-s3backup/blob/main/backup.sh).
-
-Backups can be performed using the backup commands:
-
-### set GPG Public Key encryption for all future backups of pushpin service
-
-```shell
-# usage
-dokku pushpin:backup-set-public-key-encryption <service> <public-key-id>
-```
-
-Set the `GPG` Public Key for encrypting backups:
-
-```shell
-dokku pushpin:backup-set-public-key-encryption lollipop
-```
-
-This method currently requires the <public-key-id> to be present on the keyserver `keyserver.ubuntu.com`:
-
-### unset GPG Public Key encryption for future backups of the pushpin service
-
-```shell
-# usage
-dokku pushpin:backup-unset-public-key-encryption <service>
-```
-
-Unset the `GPG` Public Key encryption for backups:
-
-```shell
-dokku pushpin:backup-unset-public-key-encryption lollipop
 ```
 
 ### Disabling `docker image pull` calls
