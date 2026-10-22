@@ -34,7 +34,7 @@ pushpin:pause <service>                            # pause a running Pushpin ser
 pushpin:promote <service> [<app>]                  # promote service <service> as WEBSOCKET_URL in <app>
 pushpin:reexpose <service>                         # reexpose a Pushpin service, applying its expose settings
 pushpin:restart <service>                          # graceful shutdown and restart of the Pushpin service container
-pushpin:set <service> <key> <value>                # set or clear a property for a service
+pushpin:set <service> <key> [<value>] [--id <id>]  # set or clear a property for a service
 pushpin:start <service>                            # start a previously stopped Pushpin service
 pushpin:stop <service>                             # stop a running Pushpin service
 pushpin:unexpose <service>                         # unexpose a previously exposed Pushpin service
@@ -183,6 +183,7 @@ flags:
 - `--backup-object-name`: show the name backups are uploaded under in place of the default
 - `--backup-public-key-id`: show the gpg public key id backups are encrypted with
 - `--backup-schedule`: show the cron schedule backups run on
+- `--backup-schedules`: show every scheduled backup, as id, schedule, bucket and use-iam
 - `--backup-secret-access-key-fingerprint`: show a sha256 fingerprint of the stored backup secret access key
 - `--backup-signature-version`: show the signature version backups authenticate with
 - `--backup-storage-class`: show the s3 storage class backups are uploaded with
@@ -452,12 +453,13 @@ An app is still linked after its `WEBSOCKET_URL` is changed to point elsewhere, 
 
 ```shell
 # usage
-dokku pushpin:set <service> <key> <value>
+dokku pushpin:set <service> <key> [<value>] [--id <id>]
 ```
 
 flags:
 
 - `--allow-restart`: restart or reexpose the service when the property only takes effect that way and its value changed
+- `--id <string>`: record the property on this backup schedule instead of on the service
 - `--no-restart`: do not restart the linked apps when a password change updates the url they hold
 
 Set the network to attach after the service container is started:
